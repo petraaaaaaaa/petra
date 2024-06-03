@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>推荐电影页面</title>
+    <link rel="stylesheet" href="{% static 'css/firstPage.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.raty.js' %}"></script>
+    <style>
+
+        li{
+            list-style: none;
+            display: inline-block;
+        }
+
+        #recommend2{
+                position:absolute;
+                left:700px;
+                background-color: #008CBA;
+                color: white;
+                padding: 5px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+        
+        
+
+    </style>
+</head>
+<body>
+    <h2>您的电影推荐结果：</h2>
+    <div>
+        <hr />
+        <ul class="nav nav-tabs nav-justified" id="index">
+          <li class="active"><a href="#tab0" data-toggle="tab">LFM</a></li>
+          <li><a href="#tab1" data-toggle="tab">UserBasedCF</a></li>
+          <li><a href="#tab2" data-toggle="tab">ItemBasedCF</a></li>
+        </ul>
+    </div>
+    <div class="tab-content" id="my-content">
+        <div class="tab-pane fade in active" id="tab0">
+            <h3>根据隐语义模型，为您推荐以下电影：</h3>
+            <ul class="figures_lists">
+                {% for result in lfm_rec_results %}
+                    <li class="list_item" data-trigger-class="list_item_hover">
+                        <strong class="figure_title">
+                            <a _boss="film" href="http://www.imdb.com/title/tt{{ result.item_id }}/"  target="_blank" title="{{ result.item_name }}">{{ result.item_name }}</a>
+                        </strong>
+                        <a _boss="film" target="_blank" class="figure" tabindex="-1">
+                            <img src="{{ result.img_url }}" alt="Smiley face">
+                        </a>
+                    </li>
+
+                {%  endfor %}
+            </ul>
+        </div>
+        <div class="tab-pane fade in active" id="tab1">
+            <h3>与您相似的用户喜欢这些电影：</h3>
+            <ul class="figures_lists">
+                {% for result in ubcf_rec_results %}
+                    <li class="list_item" data-trigger-class="list_item_hover">
+                        <strong class="figure_title">
+                            <a _boss="film" href="http://www.imdb.com/title/tt{{ result.item_id }}/"  target="_blank" title="{{ result.item_name }}">{{ result.item_name }}</a>
+                        </strong>
+                        <a _boss="film" target="_blank" class="figure" tabindex="-1">
+                            <img src="{{ result.img_url }}" alt="Smiley face">
+                        </a>
+                    </li>
+
+                {%  endfor %}
+            </ul>
+        </div>
+        <div class="tab-pane fade in active" id="tab2">
+            <h3>根据您好评过的电影为您推荐：</h3>
+            <ul class="figures_lists">
+                {% for result in ibcf_rec_results %}
+                    <li class="list_item" data-trigger-class="list_item_hover">
+                        <strong class="figure_title">
+                            <a _boss="film" href="http://www.imdb.com/title/tt{{ result.item_id }}/"  target="_blank" title="{{ result.item_name }}">{{ result.item_name }}</a>
+                        </strong>
+                        <a _boss="film" target="_blank" class="figure" tabindex="-1">
+                            <img src="{{ result.img_url }}" alt="Smiley face">
+                        </a>
+                    </li>
+
+                {%  endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- <form action="users/recommend/show_more" method="get">
+        {% csrf_token %}
+        <input type="hidden" name="userIdd" id = "userId3" value="">
+        <input type="submit" name = "viewResult" class="view"  id = "showMore" value="查看更多">
+    </form> -->
+
+
+</body>
+<script>
+
+window.onload = function() {
+  // 获取查询字符串
+  let queryString = window.location.search;
+
+  // 解析查询参数
+  let urlParams = new URLSearchParams(queryString);
+
+  let userId = urlParams.get('userIdd');
+
+  let inputElement = document.getElementById('userId3');
+
+  // 把获取到的userid值赋给input元素
+  if (inputElement && userId !== null) {
+    inputElement.value = userId;
+  }
+};
+
+</script>
+</html>

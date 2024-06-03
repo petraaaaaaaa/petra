@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Styled Table</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center; /* 水平居中 */
+          align-items: top; /* 垂直居中 */
+          margin: 0;
+          padding: 20px;
+          background-color: #f7f7f7; /* 页面背景色 */
+        }
+        table {
+          border-collapse: collapse;
+          width: auto; /* 自适应内容宽度 */
+          margin: 0; /* 移除默认外边距 */
+        }
+        th, td {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        th {
+          background-color: #4CAF50; /* 表头背景色 */
+          color: white; /* 表头文字颜色 */
+        }
+        tr:nth-child(even) {
+          background-color: #f2f2f2; /* 偶数行背景色 */
+        }
+        tr:hover {
+          background-color: #ddd; /* 鼠标悬停行背景色 */
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <caption>
+            <h2>您评价过下列电影</h2>
+        </caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>电影名称</th>
+                <th>评分</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dd in user_movie_ratings %}
+                <tr>
+                    <td>{{ dd.movie_id }}</td>
+                    <td>{{ dd.movie_name }}</td>
+                    <td>{{ dd.rating }}</td>
+                </tr>
+
+            {%  endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
